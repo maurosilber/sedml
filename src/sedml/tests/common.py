@@ -1,6 +1,5 @@
-from xml.etree.ElementTree import Element
-
 from ..common import bool_parser, try_types
+from ..xml import Element, is_comment
 
 float_bool_str = try_types(float, bool_parser, str)
 
@@ -17,7 +16,12 @@ def compare_xml(x: Element, y: Element) -> bool:
         yv = y.attrib[k]
         assert float_bool_str(xv) == float_bool_str(yv), (k, xv, yv)
 
-    x_elements = sorted(x, key=lambda x: x.tag)
-    y_elements = sorted(y, key=lambda x: x.tag)
+    x_elements: list[Element] = [xi for xi in x if not is_comment(xi)]
+
+    def get_tag(x):
+        return x.tag
+
+    x_elements = sorted(x_elements, key=get_tag)
+    y_elements = sorted(y, key=get_tag)
     assert all(map(compare_xml, x_elements, y_elements))
     return True
