@@ -13,12 +13,29 @@ def try_types(*types: Callable[[str], Any]):
             except Exception:
                 pass
 
-    return BeforeValidator(parser)
+    return parser
 
 
-BOOL = Annotated[bool, PlainSerializer(lambda x: "true" if x else "false")]
-INT = Annotated[int, try_types(int)]
-FLOAT = Annotated[float, try_types(float)]
+def bool_parser(x):
+    match x:
+        case "1" | "true":
+            return True
+        case "0" | "false":
+            return False
+        case _:
+            raise ValueError(x)
+
+
+BOOL = Annotated[
+    bool,
+    BeforeValidator(bool_parser),
+    PlainSerializer(lambda x: "true" if x else "false"),
+]
+INT = Annotated[int, BeforeValidator(try_types(int))]
+FLOAT = Annotated[float, BeforeValidator(try_types(float))]
+FLOAT_BOOL_STR = Annotated[
+    float | bool | str, BeforeValidator(try_types(float, bool_parser, str))
+]
 
 
 # letter ::= ’a’..’z’,’A’..’Z’ digit ::= ’0’..’9’ idChar ::= letter | digit | ’ ’ SId ::= ( letter | ’ ’ ) idChar*

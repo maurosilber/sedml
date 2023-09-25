@@ -6,7 +6,7 @@ from pydantic import ConfigDict
 from pydantic_xml import BaseXmlModel, attr, element, wrapped
 from pydantic_xml.element.element import SearchMode
 
-from .common import BOOL, FLOAT, INT, Annotated, try_types
+from .common import BOOL, FLOAT, FLOAT_BOOL_STR, INT
 from .xml import Element
 
 SID: TypeAlias = str
@@ -88,7 +88,7 @@ class Model(Base, tag="model"):
 
 class AlgorithmParameter(Base, tag="algorithmParameter"):
     kisaoID: str = attr()
-    value: Annotated[float | bool | str, try_types(float, bool, str)] = attr()
+    value: FLOAT_BOOL_STR = attr()
 
 
 class Algorithm(Base, tag="algorithm"):
