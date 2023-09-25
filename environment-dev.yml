@@ -1,0 +1,12 @@
+name: sedml
+channels:
+  - conda-forge
+dependencies:
+  - pre-commit
+  - pytest
+  - pydantic
+  - typing_extensions
+  - pip
+  - pip:
+    - biomodels
+    - pydantic_xml
