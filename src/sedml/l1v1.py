@@ -141,7 +141,7 @@ class Task(AbstractTask, tag="task"):
 class SetValue(ComputeChange, tag="setValue"):
     modelReference: SID = attr()
     range: SID | None = attr(default=None)
-    symbol: URI = attr()
+    symbol: str | None = attr(default=None)
 
 
 class Range(Base, tag="range"):
