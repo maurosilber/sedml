@@ -157,7 +157,7 @@ class DataDescription(Base, tag="dataDescription"):
     id: SID = attr()
     source: URI = attr()
     format: URI | None = attr(default=None)
-    dimension_description: XML | None = attr(default=None)
+    dimensionDescription: XML | None = attr(default=None)
     data_sources: list[DataSource] = wrapped("listOfDataSources", element(default=[]))
 
 

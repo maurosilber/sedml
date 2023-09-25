@@ -55,7 +55,7 @@ class DataSource(Base, tag="dataSource"):
 class DataDescription(Base, tag="dataDescription"):
     format: URI | None = attr(default=None)
     source: URI = attr()
-    dimension_description: XML | None = element(default=None)
+    dimensionDescription: XML | None = element(default=None)
     data_sources: list[DataSource] = wrapped("listOfDataSources", element(default=[]))
 
 
