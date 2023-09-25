@@ -24,7 +24,7 @@ class Base(
 ):
     model_config = ConfigDict(protected_namespaces=(), arbitrary_types_allowed=True)
 
-    id: SID = attr()
+    id: SID | None = attr(default=None)
     name: str | None = attr(default=None)
     metaid: SID | None = attr(default=None)
     notes: XML | None = element(default=None)
