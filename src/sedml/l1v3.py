@@ -183,6 +183,9 @@ class RepeatedTask(AbstractTask, tag="repeatedTask"):
     ranges: list[Ranges] = wrapped("listOfRanges", element(default=[]))
 
 
+Tasks = Task | RepeatedTask
+
+
 class DataGenerator(Base, tag="dataGenerator"):
     variables: list[Variable] = wrapped("listOfVariables", element(default=[]))
     parameters: list[Parameter] = wrapped("listOfParameters", element(default=[]))
@@ -240,7 +243,7 @@ class SEDML(Base, tag="sedML"):
         "listOfSimulations",
         element(default=[]),
     )
-    tasks: list[Task] = wrapped(
+    tasks: list[Tasks] = wrapped(
         "listOfTasks",
         element(default=[]),
     )
