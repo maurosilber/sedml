@@ -3,10 +3,10 @@ from __future__ import annotations
 from typing import Literal, TypeAlias
 
 from pydantic import ConfigDict
-from pydantic_xml import BaseXmlModel, attr, element, wrapped
+from pydantic_xml import attr, element, wrapped
 from pydantic_xml.element.element import SearchMode
 
-from .common import BOOL, FLOAT, FLOAT_BOOL_STR, INT
+from .common import BOOL, FLOAT, FLOAT_BOOL_STR, INT, _BaseSEDML
 from .xml import Element
 
 SID: TypeAlias = str
@@ -18,7 +18,7 @@ MathML: TypeAlias = XML
 
 
 class Base(
-    BaseXmlModel,
+    _BaseSEDML,
     nsmap={"": "http://sed-ml.org/"},
     search_mode=SearchMode.UNORDERED,
 ):

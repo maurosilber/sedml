@@ -3,10 +3,10 @@ from __future__ import annotations
 from typing import Literal, TypeAlias
 
 from pydantic import ConfigDict
-from pydantic_xml import BaseXmlModel, attr, element, wrapped
+from pydantic_xml import attr, element, wrapped
 from pydantic_xml.element.element import SearchMode
 
-from .common import BOOL, FLOAT, FLOAT_BOOL_STR, INT
+from .common import BOOL, FLOAT, FLOAT_BOOL_STR, INT, _BaseSEDML
 from .xml import Element
 
 SID: TypeAlias = str
@@ -77,7 +77,7 @@ ScaleType: TypeAlias = Literal[
 
 
 class Base(
-    BaseXmlModel,
+    _BaseSEDML,
     nsmap={"": "http://sed-ml.org/sed-ml/level1/version4"},
     search_mode=SearchMode.UNORDERED,
 ):
@@ -88,17 +88,6 @@ class Base(
     name: str | None = attr(default=None)
     notes: XML | None = attr(default=None)
     annotations: XML | None = attr(default=None)
-
-    def __repr_str__(self, join_str: str) -> str:
-        args = []
-        for a, v in self.__repr_args__():
-            if v is None:
-                continue
-            elif a is None:
-                args.append(repr(v))
-            else:
-                args.append(f"{a}={v!r}")
-        return join_str.join(args)
 
 
 class Parameter(Base, tag="parameter"):

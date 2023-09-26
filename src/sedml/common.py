@@ -1,7 +1,34 @@
 from typing import Any, Callable
 
 from pydantic import BeforeValidator, PlainSerializer
+from pydantic_xml import BaseXmlModel
 from typing_extensions import Annotated
+
+from .xml import Element
+
+
+class _BaseSEDML(BaseXmlModel):
+    def __repr_str__(self, join_str: str) -> str:
+        args = []
+        for a, v in self.__repr_args__():
+            if v is None:
+                continue
+            elif a is None:
+                args.append(repr(v))
+            else:
+                args.append(f"{a}={v!r}")
+        return join_str.join(args)
+
+    def to_xml(
+        self,
+        *,
+        skip_empty: bool = True,
+        **kwargs,
+    ) -> str | bytes:
+        return super().to_xml(skip_empty=skip_empty, **kwargs)
+
+    def to_xml_tree(self, *, skip_empty: bool = True) -> Element:
+        return super().to_xml_tree(skip_empty=skip_empty)
 
 
 def try_types(*types: Callable[[str], Any]):
