@@ -362,7 +362,7 @@ class Output(Base):
 
 
 class Axis(Base, tag="axis"):
-    type: AxisType
+    type: AxisType = attr()
     min: FLOAT | None = attr(default=None)
     max: FLOAT | None = attr(default=None)
     grid: BOOL | None = attr(default=None)
@@ -440,7 +440,7 @@ class ParameterEstimationReport(Output, tag="parameterEstimationReport"):
 
 
 class SubPlot(Base, tag="subPlot"):
-    plot: SID
+    plot: SID = attr()
     row: INT = attr()  # positive
     col: INT = attr()  # positive
     rowSpan: INT | None = attr(default=None)  # positive
