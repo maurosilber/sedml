@@ -144,7 +144,7 @@ class Slice(Base, tag="slice"):
 class DataSource(Base, tag="dataSource"):
     id: SID = attr()
     name: str | None = attr(default=None)
-    index_set: str | None = attr(default=None)
+    indexSet: str | None = attr(default=None)
     slices: list[Slice] = wrapped("listOfSlices", element(default=[]))
 
 
@@ -157,7 +157,7 @@ class DataDescription(Base, tag="dataDescription"):
     id: SID = attr()
     source: URI = attr()
     format: URI | None = attr(default=None)
-    dimensionDescription: XML | None = attr(default=None)
+    dimensionDescription: XML | None = element(default=None)
     data_sources: list[DataSource] = wrapped("listOfDataSources", element(default=[]))
 
 
