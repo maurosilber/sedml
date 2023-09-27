@@ -213,13 +213,6 @@ class UniformTimeCourse(Simulation, tag="uniformTimeCourse"):
     numberOfSteps: INT = attr()
 
 
-class DeprecatedUniformTimeCourse(Simulation, tag="uniformTimeCourse"):
-    initialTime: FLOAT = attr()
-    outputStartTime: FLOAT = attr()
-    outputEndTime: FLOAT = attr()
-    numberOfPoints: INT = attr()
-
-
 class OneStep(Simulation, tag="oneStep"):
     step: FLOAT = attr()
 
@@ -250,13 +243,6 @@ class Range(Base):
     id: SID = attr()
 
 
-class DeprecatedUniformRange(Range, tag="uniformRange"):
-    start: FLOAT = attr()
-    end: FLOAT = attr()
-    numberOfPoints: FLOAT = attr()
-    type: str = attr()
-
-
 class UniformRange(Range, tag="uniformRange"):
     start: FLOAT = attr()
     end: FLOAT = attr()
@@ -276,9 +262,7 @@ class DataRange(Range, tag="dataRange"):
     sourceReference: SID = attr()
 
 
-Ranges = (
-    UniformRange | DeprecatedUniformRange | VectorRange | FunctionalRange | DataRange
-)
+Ranges = UniformRange | VectorRange | FunctionalRange | DataRange
 
 
 class Objective(Base):
@@ -380,7 +364,6 @@ class Plot(Output):
 
 class AbstractCurve(Base):
     xDataReference: SID = attr()
-    logX: BOOL = attr()
     order: INT | None = attr(default=None)  # non-negative
     style: SID | None = attr(default=None)
     yAxis: Literal["right", "left", None] = attr(default=None)
@@ -388,7 +371,6 @@ class AbstractCurve(Base):
 
 class Curve(AbstractCurve, tag="curve"):
     yDataReference: SID = attr()
-    logY: BOOL = attr()
     type: CurveType | None = attr(default=None)
     xErrorUpper: SID | None = attr(default=None)
     xErrorLower: SID | None = attr(default=None)
@@ -413,9 +395,6 @@ class Surface(Base, tag="surface"):
     xDataReference: SID = attr()
     yDataReference: SID = attr()
     zDataReference: SID = attr()
-    logX: BOOL = attr()
-    logY: BOOL = attr()
-    logZ: BOOL = attr()
     style: SID | None = attr(default=None)
     type: SurfaceType = attr()
     order: INT | None = attr(default=None)  # non-negative
@@ -487,9 +466,7 @@ class Style(Base, tag="style"):
     fill: Fill | None = element(default=None)
 
 
-Simulations = (
-    UniformTimeCourse | DeprecatedUniformTimeCourse | OneStep | SteadyState | Analysis
-)
+Simulations = UniformTimeCourse | OneStep | SteadyState | Analysis
 Tasks = Task | ParameterEstimationTask | RepeatedTask
 Outputs = (
     Plot2D
