@@ -1,2 +1,3 @@
 pydantic_xml
+lxml
 typing_extensions

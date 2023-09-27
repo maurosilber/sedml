@@ -5,6 +5,7 @@ dependencies:
   - pre-commit
   - pytest
   - pydantic
+  - lxml
   - typing_extensions
   - pip
   - pip:
