@@ -11,7 +11,6 @@ def compare_xml(x: Element, y: Element) -> bool:
     x_keys = set(xi for xi in x.attrib.keys())
     y_keys = set(yi for yi in y.attrib.keys())
     diff: set[str] = set.symmetric_difference(x_keys, y_keys)
-    diff = {x for x in diff if not x.startswith("{")}
     assert len(diff) == 0, diff
 
     for k, xv in x.attrib.items():
