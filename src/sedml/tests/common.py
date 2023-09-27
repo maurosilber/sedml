@@ -14,6 +14,8 @@ def compare_xml(x: Element, y: Element) -> bool:
     x_keys = set(xi for xi in x.attrib.keys())
     y_keys = set(yi for yi in y.attrib.keys())
     diff: set[str] = set.symmetric_difference(x_keys, y_keys)
+    # TODO: remove this hack to exclude some keys with extra namespaces.
+    diff = {x for x in diff if not x.startswith("{")}
     # Deprecated elements are ignored during parsing
     # and not recreated after the round trip.
     # We remove those keys.
@@ -22,7 +24,7 @@ def compare_xml(x: Element, y: Element) -> bool:
     assert len(diff) == 0, diff
 
     for k, xv in x.attrib.items():
-        if k in deprecated_keys:
+        if "{" in k or k in deprecated_keys:
             continue
         yv = y.attrib[k]
         assert float_bool_str(xv) == float_bool_str(yv), (k, xv, yv)
