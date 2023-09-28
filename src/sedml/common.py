@@ -1,5 +1,7 @@
-from typing import Any, Callable
+import io
+from typing import Any, Callable, Sequence
 
+import rich
 from pydantic import BeforeValidator, PlainSerializer
 from pydantic_xml import BaseXmlModel
 from typing_extensions import Annotated
@@ -8,16 +10,19 @@ from .xml import Element
 
 
 class _BaseSEDML(BaseXmlModel):
-    def __repr_str__(self, join_str: str) -> str:
-        args = []
+    def __repr__(self) -> str:
+        sio = io.StringIO()
+        rich.print(self, file=sio)
+        return sio.getvalue()
+
+    def __rich_repr__(self):
         for a, v in self.__repr_args__():
-            if v is None:
+            if v is None or isinstance(v, Sequence) and len(v) == 0:
                 continue
             elif a is None:
-                args.append(repr(v))
+                yield v
             else:
-                args.append(f"{a}={v!r}")
-        return join_str.join(args)
+                yield a, v
 
     def to_xml(
         self,
