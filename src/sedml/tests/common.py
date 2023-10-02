@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from .. import dumps, loads
 from ..common import bool_parser, try_types
 from ..xml import Element, fromstring, is_comment
@@ -43,8 +41,7 @@ def compare_xml(x: Element, y: Element):
     return True
 
 
-def load_and_compare(p: Path):
-    b = p.read_bytes()
+def load_and_compare(b: bytes):
     direct = fromstring(b)
     round_trip = fromstring(dumps(loads(b)))
     compare_xml(direct, round_trip)

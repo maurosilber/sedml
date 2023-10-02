@@ -16,4 +16,4 @@ def yield_sedml_files():
 @mark.parametrize("file", sorted(yield_sedml_files()))
 def test_roundtrip(file: str):
     path = root / file
-    load_and_compare(path)
+    load_and_compare(path.read_bytes())

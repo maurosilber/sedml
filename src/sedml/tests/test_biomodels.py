@@ -18,4 +18,4 @@ def yield_sedml(f) -> Iterator[Path]:
 @mark.parametrize("file", sorted(p.stem for p in (cache_path / "omex").iterdir()))
 def test_roundtrip(file):
     for p in yield_sedml(file):
-        load_and_compare(p)
+        load_and_compare(p.read_bytes())
