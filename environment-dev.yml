@@ -10,5 +10,5 @@ dependencies:
   - typing_extensions
   - pip
   - pip:
-    - biomodels
+    - biomodels >= 0.2.0
     - pydantic_xml
