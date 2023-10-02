@@ -1,5 +1,8 @@
+from pathlib import Path
+
+from .. import dumps, loads
 from ..common import bool_parser, try_types
-from ..xml import Element, is_comment
+from ..xml import Element, fromstring, is_comment
 
 float_bool_str = try_types(float, bool_parser, str)
 
@@ -8,7 +11,7 @@ deprecated: dict[str, set[str]] = {
 }
 
 
-def compare_xml(x: Element, y: Element) -> bool:
+def compare_xml(x: Element, y: Element):
     """Compare two XML trees."""
     assert x.tag == y.tag
     x_keys = set(xi for xi in x.attrib.keys())
@@ -38,3 +41,10 @@ def compare_xml(x: Element, y: Element) -> bool:
     y_elements = sorted(y, key=get_tag)
     assert all(map(compare_xml, x_elements, y_elements))
     return True
+
+
+def load_and_compare(p: Path):
+    b = p.read_bytes()
+    direct = fromstring(b)
+    round_trip = fromstring(dumps(loads(b)))
+    compare_xml(direct, round_trip)

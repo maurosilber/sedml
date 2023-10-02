@@ -1,22 +1,21 @@
+from pathlib import Path
+from typing import Iterator
+
 import biomodels
 from biomodels.common import cache_path
 from pytest import mark
 
-from .. import read
-from ..xml import fromstring
-from .common import compare_xml
+from .common import load_and_compare
 
 
-def yield_sedml(f):
+def yield_sedml(f) -> Iterator[Path]:
     omex = biomodels.get_omex(f)
     for p in omex:
         if str(p).endswith(".sedml"):
             yield p
 
 
-@mark.parametrize("file", [p.stem for p in (cache_path / "omex").iterdir()])
+@mark.parametrize("file", sorted(p.stem for p in (cache_path / "omex").iterdir()))
 def test_roundtrip(file):
     for p in yield_sedml(file):
-        direct = fromstring(p.read_bytes())
-        round_trip = fromstring(read(p).to_xml(skip_empty=True))
-        assert compare_xml(direct, round_trip)
+        load_and_compare(p)
