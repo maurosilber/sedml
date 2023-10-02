@@ -6,6 +6,7 @@ dependencies:
   - pytest
   - pydantic
   - lxml
+  - rich
   - typing_extensions
   - pip
   - pip:
