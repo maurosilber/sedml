@@ -3,8 +3,12 @@ name = "sedml"
 authors = [
     { name="Mauro Silberberg", email="maurosilber@gmail.com" },
 ]
-description = ""
+description = "A SED-ML reader based on pydantic."
 keywords = [
+    "SED-ML",
+    "XML",
+    "pydantic",
+    "pydantic-xml",
 ]
 license = { file="LICENSE" }
 classifiers = [
